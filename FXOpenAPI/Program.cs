@@ -7,7 +7,7 @@ Console.WriteLine("Program Starting............................!");
 string id = Credentials.ID;
 string key = Credentials.Key;
 string secret = Credentials.Secret;
-string baseUrl = Url.BaseUrl;
+string baseUrl = ApiStrings.BaseUrl;
 
 AccountAPI account = new(baseUrl, id, key, secret);
 await account.GetAccountInformation();

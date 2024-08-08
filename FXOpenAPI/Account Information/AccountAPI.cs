@@ -8,18 +8,10 @@ namespace FXOpenAPI.Account_Information
 {
     public class AccountAPI
     {
-        public static HttpClient _client;
+        public static HttpClient _client = new();
 
         public AccountAPI(string url, string id, string key, string secret)
         {
-            var handler = new HttpClientHandler()
-            {
-                ServerCertificateCustomValidationCallback =
-                                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
-                 
-            };
-
-            _client = new HttpClient(handler);
             _client.BaseAddress = new Uri(url);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", BasicAuthentication.ConvertToSting(id, key, secret));
         }
@@ -27,7 +19,7 @@ namespace FXOpenAPI.Account_Information
         // Gets Account Information
         public async Task<Account> GetAccountInformation()
         {
-            var response = await _client.GetFromJsonAsync<Account>(Url.Account);
+            var response = await _client.GetFromJsonAsync<Account>(ApiStrings.Account);
 
             return response!;
         }

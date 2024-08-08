@@ -2,7 +2,7 @@
 
 namespace FXOpenAPI.Logic.StaticStrings
 {
-    public static class Url
+    public static class ApiStrings
     {
         public const string BaseUrl = "https://marginalttdemowebapi.fxopen.net/api/v2/";
         

@@ -8,25 +8,17 @@ namespace FXOpenAPI.Symbol_Information
 {
     public class SymbolAPI
     {
-        public static HttpClient _client;
+        public static HttpClient _client = new();
 
         public SymbolAPI(string url, string id, string key, string secret)
         {
-            var handler = new HttpClientHandler()
-            {
-                ServerCertificateCustomValidationCallback =
-                                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
-
-            };
-
-            _client = new HttpClient(handler);
             _client.BaseAddress = new Uri(url);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", BasicAuthentication.ConvertToSting(id, key, secret));
         }
 
         public async Task<List<SymbolList>?> GetSymbols()
         {
-            var response = await _client.GetFromJsonAsync<List<SymbolList>>(Url.Symbols);
+            var response = await _client.GetFromJsonAsync<List<SymbolList>>(ApiStrings.Symbols);
 
             if (response == null) return null;
 

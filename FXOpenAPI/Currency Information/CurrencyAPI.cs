@@ -8,17 +8,10 @@ namespace FXOpenAPI.Currency_Information
 {
     public class AccountAPI
     {
-        public static HttpClient _client;
+        public static HttpClient _client = new();
 
         public AccountAPI(string url, string id, string key, string secret)
         {
-            var handler = new HttpClientHandler()
-            {
-                ServerCertificateCustomValidationCallback =
-                                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-            };
-
-            _client = new HttpClient(handler);
             _client.BaseAddress = new Uri(url);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", BasicAuthentication.ConvertToSting(id, key, secret));
         }
@@ -26,7 +19,7 @@ namespace FXOpenAPI.Currency_Information
         // Gets Currency Information
         public async Task<Currency?> GetCurrency(string symbol)
         {
-            var response = await _client.GetFromJsonAsync<Currency>($"{Url.Currency}/{symbol}");
+            var response = await _client.GetFromJsonAsync<Currency>($"{ApiStrings.Currency}/{symbol}");
 
             if (response == null) return null;
 
@@ -36,7 +29,7 @@ namespace FXOpenAPI.Currency_Information
         // Gets All of Currency Type Information
         public async Task<List<CurrencyType>?> GetCurrencyTypes()
         {
-            var response = await _client.GetFromJsonAsync<List<CurrencyType>>(Url.CurrencyType);
+            var response = await _client.GetFromJsonAsync<List<CurrencyType>>(ApiStrings.CurrencyType);
 
             if (response == null) return null;
 
@@ -46,7 +39,7 @@ namespace FXOpenAPI.Currency_Information
         // Gets All of Currencies Information
         public async Task<List<Currency>> GetAllCurrencies()
         {
-            var response = await _client.GetFromJsonAsync<List<Currency>>(Url.Currency);
+            var response = await _client.GetFromJsonAsync<List<Currency>>(ApiStrings.Currency);
 
             return response!;
         }
